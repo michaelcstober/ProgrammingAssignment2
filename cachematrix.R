@@ -1,36 +1,33 @@
-## Put comments here that give an overall description of what your
-## functions do
-
-## Write a short comment describing this function
-
+## makeCacheMatrix is a function that should return a special list vector
+## ^ Takes 'x' as an argument; 'x' is a square matrix to be inverted
 makeCacheMatrix <- function(x = matrix()) {
-  cachedinvertedmatrix <- NULL
+  cached.inverted.matrix <- NULL
   set <- function(y) {
     x <<- y
-    cachedinvertedmatrix<<- NULL
+    cached.inverted.matrix<<- NULL
   }
+## return the matrix
   get <- function() x
-  setinvertedmatrix <- function(invertedmatrix) cachedinvertedmatrix <<- invertedmatrix
-  getinvertedmatrix <- function() cachedinvertedmatrix
+  set.inverted.matrix <- function(inverted.matrix) cached.inverted.matrix <<- inverted.matrix
+  get.inverted.matrix <- function() cached.inverted.matrix
   list(set = set, get = get,
-       setinvertedmatrix = setinvertedmatrix,
-       getinvertedmatrix = getinvertedmatrix)
+       set.inverted.matrix = set.inverted.matrix,
+       get.inverted.matrix = get.inverted.matrix)
 
 }
-## m= cachedinvertedmatrix
-## 
-
-## Write a short comment describing this function
-
+## Invert the matrix returned by the makeCacheMatrix function UNLESS
+## cached.inverted.matrix exists; if it does then return cache
 cacheSolve <- function(x, ...) {
-  cachedinvertedmatrix <- x$getinvertedmatrix()
-  if(!is.null(cachedinvertedmatrix)) {
+  cached.inverted.matrix <- x$get.inverted.matrix()
+  if(!is.null(cached.inverted.matrix)) {
     message("getting chached data")
-    return(cachedinvertedmatrix)
+    return(cached.inverted.matrix)
   }
+## get matrix from original function
   data <- x$get()
-  cachedinvertedmatrix <- solve(data, ...)
-  x$setinvertedmatrix(cachedinvertedmatrix)
-  cachedinvertedmatrix
-        ## Return a matrix that is the inverse of 'x'
+  cached.inverted.matrix <- solve(data, ...)
+  x$set.inverted.matrix(cached.inverted.matrix)
+## Return a matrix that is the inverse of 'x' 
+  cached.inverted.matrix
+
 }
